@@ -19,13 +19,13 @@
 
 ### 기본 축과 교차 축
 
-![image.png](image.png)
+![direction.png](images/direction.png)
 
 ## 기본 축 설정: flex-direction
 
 기본 축 방향을 설정. 기본값은 row
 
-![image.png](image%201.png)
+![flex-direction.png](images/flex-direction.png)
 
 이외에도 **오른쪽부터 정렬**되는 **row-reverse**와 **아래부터 정렬**되는 **column-reverse**도 있다. 
 
@@ -35,15 +35,15 @@
 
 ### justify-content: flex-start; (default)
 
-![image.png](image%202.png)
+![flex-start.png](images/flex-start.png)
 
 ### justify-content: flex-end;
 
-![image.png](image%203.png)
+![flex-end.png](images/flex-end.png)
 
 ### justify-content: center;
 
-![image.png](image%204.png)
+![justify-center.png](images/justify-center.png)
 
 ### justify-content: space-between;
 
@@ -63,19 +63,19 @@
 
 ### align-items: stretch; (default)
 
-![image.png](image%205.png)
+![stretch.png](images/stretch.png)
 
 ### align-items: flex-start;
 
-![image.png](image%206.png)
+![align-flex-start.png](images/align-flex-start.png)
 
 ### align-items: center;
 
-![image.png](image%207.png)
+![align-center.png](images/align-center.png)
 
 ### align-items: flex-end;
 
-![image.png](image%208.png)
+![align-flex-end.png](images/align-flex-end.png)
 
 ### align-items: baseline;
 
@@ -87,11 +87,11 @@
 
 ### flex-wrap: wrap;
 
-![image.png](image%209.png)
+![wrap.png](images/wrap.png)
 
 ### flex-wrap: wrap-reverse;
 
-![image.png](image%2010.png)
+![wrap-reverse.png](images/wrap-reverse.png)
 
 ## 여러행 정렬: align-content
 
@@ -103,11 +103,11 @@ flex-wrap: wrap; 이 설정된 상태에서, 요소들의 행이 2줄 이상일 
 
 ### gap: 간격;
 
-![image.png](image%2011.png)
+![gap.png](images/gap.png)
 
 ### gap: 세로간격 가로간격;
 
-![image.png](image%2012.png)
+![gap2.png](images/gap2.png)
 
 ## 요소의 기본 크기: flex-basis
 
@@ -121,19 +121,19 @@ flexbox 안의 요소들의 기본 크기를 설정. (flex-direction이 row일 �
 
 flex-grow: 0;인 경우, 요소들이 늘어나지 않고 주어진 값으로 존재
 
-![image.png](image%2013.png)
+![flex-grow.png](images/flex-grow.png)
 
 flex-grow: 1;인 경우, 값을 가진 요소가  남아있는 flexbox를 채운다.
 
-![image.png](image%2014.png)
+![flex-grow1.png](images/flex-grow1.png)
 
 flex-grow: 1; 값을 가진 요소가  여러개인 경우 남은 flexbox를 동등한 비율로 채운다.
 
-![image.png](image%2015.png)
+![flex-grow2.png](images/flex-grow2.png)
 
 flex-grow값이 다를 경우 더 큰 값을 가진 요소가 남은 flexbox를 상대적으로 많이 채운다.
 
-![image.png](image%2016.png)
+![flex-grow3.png](images/flex-grow3.png)
 
 ## 유연하게 줄이기 : flex-shrink
 
@@ -141,15 +141,15 @@ flex-grow값이 다를 경우 더 큰 값을 가진 요소가 남은 flexbox를 
 
 **기본값은 1**이기 때문에 요소가 **넘친다면 기본적으로 요소의 크기를 줄인다**. 
 
-![image.png](image%2017.png)
+![flex-shrink.png](images/flex-shrink.png)
 
 **flex-shrink: 0; 이라면 크기가 줄어들지 않는다**. 그러므로 나머지 요소들만 줄어들어 flexbox의 크기를 맞춘다. 
 
-![image.png](image%2018.png)
+![flex-shrink1.png](images/flex-shrink1.png)
 
 flex-shrink의 값이 클수록 많이 줄어든다. 
 
-![image.png](image%2019.png)
+![flex-shrink2.png](images/flex-shrink2.png)
 
 **flex-grow:1;** 이용하면 브라우저의 **크기에 따라 여백을 채울 수 있고**, 
 
