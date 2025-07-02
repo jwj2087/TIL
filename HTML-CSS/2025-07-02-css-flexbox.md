@@ -47,15 +47,15 @@
 
 ### justify-content: space-between;
 
-![space-between.png](space-between.png)
+![space-between.png](images/space-between.png)
 
 ### justify-content: space-around;
 
-![space=around.png](spacearound.png)
+![space-around.png](images/spacearound.png)
 
 ### justify-content: space-evenly;
 
-![space-evenly.png](space-evenly.png)
+![space-evenly.png](images/space-evenly.png)
 
 ## 교차 축 정렬: align-items
 
