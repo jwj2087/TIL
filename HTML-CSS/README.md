@@ -10,4 +10,4 @@
 | 2025-07-01 | [position 속성](./2025-07-01-css-position.md) |
 | 2025-07-02 | [Flexbox 기초](./2025-07-02-css-flexbox.md) |
 | 2025-07-03 | [Grid 기초](./2025-07-03-css-grid.md) |
-| 2025-07-04 | [flex-shrink, flex-grow 정리](./2025-07-04-css-flex-shrink.md) |
+| 2025-07-04 | [flex-shrink와 고정값](./2025-07-04-css-flex-shrink.md) |
