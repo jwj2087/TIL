@@ -55,7 +55,7 @@ console.log(mytag.textContent); // 요소 안의 내용들 중 태그를 제외�
     그리고 이렇게 js에서 직접적으로 html을 손대는게 좋은 것도 아님. */
 
 
-// 요소 노드 추가하기
+// 요소 노드 추가하기 : 사용은 하는데 많이 쓰진 않고, innerHTML처럼 문제가 있는건 x
 // 1. 새로운 요소 노드 만들기
 const first = document.createElement('li');
 
