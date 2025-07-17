@@ -2,12 +2,11 @@
 const getEleId = document.getElementById('myNumber');
 console.log(getEleId);
 
-// class로 태그 선택하기
+// class로 태그 선택하기 : 유사배열 형태로 반환 HTMLCollection
 const getEleClass = document.getElementsByClassName('color-btn');
 console.log(getEleClass);
 console.log(getEleClass[1]);
 console.log(getEleClass.length);
-
 for (let tag of getEleClass) {
 	console.log(tag);
 }
@@ -15,7 +14,7 @@ for (let tag of getEleClass) {
 // css 선택자로 태그 선택하기
 const querySelect = document.querySelector('.color-btn');
 console.log(querySelect);
-
+// All의 경우 NodeList로 반환
 const querySelects = document.querySelectorAll('.color-btn');
 console.log(querySelects);
 
