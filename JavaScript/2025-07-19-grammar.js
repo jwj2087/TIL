@@ -1,32 +1,32 @@
 // 조건 연산자 = 삼항 연산자
 // 조건 ? truty : falsy; 
 const CUT_OFF = 80;
-function passChecker(score){
+function passChecker(score) {
 
-    if(score > CUT_OFF){
-        return '합격';
-    } else {
-        return '불합격';
-    }
+  if (score > CUT_OFF) {
+    return '합격';
+  } else {
+    return '불합격';
+  }
 
-    // return score > CUT_OFF ? "합격!" : "불합격";
-    // if문보다 간결하지만 반복문이나 조건에 다른 변수 선언 등은 불가능. 모든 if문 대체 x
+  // return score > CUT_OFF ? "합격!" : "불합격";
+  // if문보다 간결하지만 반복문이나 조건에 다른 변수 선언 등은 불가능. 모든 if문 대체 x
 }
 console.log(passChecker(75));
 
 // Spread Syntax(ES2015)
 const numbers = [1, 2, 3];
 // spread 구문은 하나로 묶여있는 값을 각각의 개별값으로 펼치는 방식
-console.log(...numbers); 
+console.log(...numbers);
 console.log(1, 2, 3); // 동일한 결과가 나옴
 
 // rest parameter와 유사하지만 이 경우 여러개의 argument를 하나의 파라미터로 묶는 방식
 const sumAll = (...args) => {
-    let sum = 0;
-    for(arg of args){
-        sum += arg;
-    }
-    return sum;
+  let sum = 0;
+  for (arg of args) {
+    sum += arg;
+  }
+  return sum;
 }
 console.log(sumAll(1, 2, 3, 4));
 
@@ -47,7 +47,7 @@ spread 구문은 하나의 값으로 취급되지 않고 여러값들의 목록�
 */
 
 const members = ['태호', '종훈', '우재'];
-const newObject = {...members};
+const newObject = { ...members };
 console.log(newObject);
 // Spread 구문을 이용해서 객체를 생성하면 배열의 인덱스가 프로퍼티 네임이 되어서 객체가 생성된다.
 
@@ -71,9 +71,9 @@ console.log(cafeMocha); // {esspresso: "30ml", milk: "150ml", chocolate: "20ml"}
 
 // 모던한 프로퍼티 표기법 - 간략화해서 프로퍼티들을 표현하는 방법들
 const user = { // 일반적인 객체 문법
-    title: 'Hey',
-    date: 2017,
-    job: '편집자',
+  title: 'Hey',
+  date: 2017,
+  job: '편집자',
 };
 
 // 변수에 할당해서 객체를 생성할 때 
@@ -81,24 +81,24 @@ const name = 'Codeit';
 const birth = 2020;
 const content = '프로그래밍';
 const education = { // 프로퍼티 네임과 변수명이 같다면 하나만 작성해서 객체를 생성 가능
-    name,
-    birth,
-    content,
+  name,
+  birth,
+  content,
 };
 // 위와 같이 함수도 축약형 표기가 가능하다
 
 const book = {
-    title: '군주론',
-    date: 2017,
-    getFullContetn(){ // 객체 내부에서 매소드를 선언할 때 :function을 생략 가능
-        return `${this.title} ${this.date}`;
-    },
+  title: '군주론',
+  date: 2017,
+  getFullContetn() { // 객체 내부에서 매소드를 선언할 때 :function을 생략 가능
+    return `${this.title} ${this.date}`;
+  },
 };
 
 // 계산된 속성명(computed property name)
 const sprint = {
-    ['Code'+'it']: 'value',
-    // []에 변수에 담긴 값을 사용하거나 함수의 return값을 사용할 수 있다
+  ['Code' + 'it']: 'value',
+  // []에 변수에 담긴 값을 사용하거나 함수의 return값을 사용할 수 있다
 };
 console.log(sprint) // {Codeit: "value"}
 
@@ -169,20 +169,20 @@ const player2 = '루미';
 // player2 = temp;
 
 // 구조분해를 이용하면 이렇게 간단하게 변경 가능
-[player1, player2] = [player2, player1]; 
+[player1, player2] = [player2, player1];
 
 
 
 // 객체 구조 분해
 const macbook_pro = {
-    mactitle: '맥북 프로 16형',
-    macprice: 3690000,
-    memory: '16GB',
-    storage: '1TB SSD 저장장치',
-    display: '16형 Rectina 디스플레이',
+  mactitle: '맥북 프로 16형',
+  macprice: 3690000,
+  memory: '16GB',
+  storage: '1TB SSD 저장장치',
+  display: '16형 Rectina 디스플레이',
 };
 
-const {mactitle, macprice, color='silver'} = macbook_pro;
+const { mactitle, macprice, color = 'silver' } = macbook_pro;
 
 console.log(mactitle);
 console.log(macprice);
@@ -192,11 +192,11 @@ console.log(color);
 // 없는 프로퍼티 네임을 이용하면 undefined가 할당된다
 // 할당연산자를 통해 기본값도 지정할 수 있다.
 
-const {storage, ...rest} = macbook_pro;
+const { storage, ...rest } = macbook_pro;
 // ...를 이용하면 프로퍼티가 유효한 부분은 해당 변수에 할당하고
 // 나머지를 하나의 객체로 모아서 할당할 수도 있다.
 
-const {mactitle: product_name} = macbook_pro;
+const { mactitle: product_name } = macbook_pro;
 console.log(product_name);
 // 프로퍼티: 변수명을 이용해서 할당받는 변수의 이름을 프로퍼티와 다르게 설정할 수도 있다.
 
@@ -205,37 +205,33 @@ const { [propertyName]: product_name1 } = macbook_pro;
 // 계산된 속성명(computed property name)를 이용하면 변수를 이용해 프로퍼티 네임을 사용할 수도 있다.
 
 
-// 구조분해 에시코드
-// 1. Destructuring 문법을 사용해서 title, artist, year, medium 변수에 myBestArt 객체의 각 프로퍼티를 할당해 주세요
+// 구조분해 예시코드
+// title, artist, year, medium 변수에 myBestArt 객체의 각 프로퍼티를 할당
 const myBestArt = {
-	title: '별이 빛나는 밤에',
-	artist: '빈센트 반 고흐',
-	year: 1889,
-	medium: '유화',
+  title: '별이 빛나는 밤에',
+  artist: '빈센트 반 고흐',
+  year: 1889,
+  medium: '유화',
 };
+const { title, artist, year, medium } = myBestArt;
 
-const {title, artist, year, medium} = myBestArt;
-
-// 2. Destructuring 문법을 활용해서 myBestSong의 프로퍼티 중 title과 artist는 각각 songName과 singer라는 변수에, 나머지는 rest라는 변수에 객체로 할당해 주세요
+// myBestSong의 프로퍼티 중 title과 artist는 각각 songName과 singer라는 변수에, 나머지는 rest라는 변수에 객체로 할당
 const myBestSong = {
-	title: '무릎',
-	artist: '아이유(IU)',
-	release: '2015.10.23.',
-	lyrics: '모두 잠드는 밤에...'
+  title: '무릎',
+  artist: '아이유(IU)',
+  release: '2015.10.23.',
+  lyrics: '모두 잠드는 밤에...'
 };
+const { title: songName, artist: singer, ...rests } = myBestSong;
 
-const {title: songName, artist: singer, ...rests} = myBestSong;
-
-// 3. printMenu 함수 안에 잘못 작성된 Destructuring 코드를 수정해 주세요
+// 구조분해를 이용해서 내용을 출혁하는 함수
 const menu1 = { name: '아메리카노' };
 const menu2 = { name: '바닐라 라떼', ice: true };
 const menu3 = { name: '카페 모카', ice: false };
-
 function printMenu(menu) {
-	//  menu 파라미터로 전달되는 객체에 ice 프로퍼티가 없을 경우 기본값은 true여야 합니다
-	const { name, ice='true' } = { ...menu };
-
-	console.log(`주문하신 메뉴는 '${ice ? '아이스' : '따뜻한'} ${name}'입니다.`);
+  //  menu 파라미터로 전달되는 객체에 ice 프로퍼티가 없을 경우 기본값은 true
+  const { name, ice = 'true' } = { ...menu };
+  console.log(`주문하신 메뉴는 '${ice ? '아이스' : '따뜻한'} ${name}'입니다.`);
 }
 // 테스트 코드
 console.log(title);
