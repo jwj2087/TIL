@@ -11,3 +11,10 @@
 | 2025-07-17 | [JS event](./2025-07-16-event.js) | #이벤트핸들러 #이벤트객체 #이벤트위임
 | 2025-07-18 | [JS 데이터, 변수 타입](./2025-07-17-데이터,%20변수%20타입.md) | #데이터타입 #Boolen #AND #OR
 | 2025-07-18 | [JS function](./2025-07-18-function.js) | #함수선언식 #함수표현식 #Arrow function #Rest Parameter #Arguments
+| 2025-07-19 | [JS Grammer](./2025-07-19-grammar.js) | #삼항연산자 #Spread Syntax #계산된 속성명 #Optional Chaning
+| 2025-07-20 | [Destructuring](./2025-07-20-Destructuring.js) | #구조분해
+| 2025-07-21 | [error와 error 객체](./2025-07-21-error.js) | #에러 #에러객체 #try-catch #Execprion
+| 2025-07-21 | [배열의 메소드 1. 반복작업](./2025-07-21-array-loop.js) | #forEach #map #reduce
+| 2025-07-21 | [배열의 메소드 2. 조건](./2025-07-21-array-filter.js) | #filter #find #some #every 
+| 2025-07-22 | [배열 정렬](./2025-07-22-sort.js) | #sort #reverse
+| 2025-07-22 | [Map과 Set](./2025-07-22-map.js) | #Map #Set

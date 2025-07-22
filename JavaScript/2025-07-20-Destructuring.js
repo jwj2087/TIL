@@ -1,3 +1,78 @@
+// 구조 분해 (Destructuring)(ES2015)
+// 배열이나 객체의 구조를 분해
+
+// 배열 구조 분해
+const rank = ['유나', '효준', '민환', '재하', '규식'];
+const [macbook, ipad, airpods, coupon] = rank;
+
+console.log(macbook); // 유나
+console.log(ipad); // 효준
+console.log(airpods); // 민환
+console.log(coupon); // 재하
+
+/*
+배열의 내용을 변수에 할당할때 const [변수들] = 배열; 방식으로 변수에 순서대로 배열의 값을 할당할 수 있다.
+const [변수들]에 할당되는 값이 배열이 아니거나 할당이 없으면 에러가 발생한다
+
+변수와 배열의 길이가 같을 필요는 없다. 넘치는 요소는 변수에 할당되지 않을뿐이다
+const [macbook, ipad, airpods, ...coupon] = rank;
+마지막 변수를 ...변수 로 표현하면 ...arg처럼 배열의 순서대로 변수에 할당하고 나머지는 ...변수에 배열로 할당하는 게 가능하다.
+*/
+
+const [mac, pad, air, ...cp] = rank;
+console.log(macbook); // 유나
+console.log(ipad); // 효준
+console.log(airpods); // 민환
+console.log(coupon); // ["재하", "규식"]
+
+// 할당하는 배열의 길이가 짧은 경우, 남은 변수에 undefined값이 할당된다. 
+// 또는 coupon='없음'처럼 초기값을 설정할 수도 있다.
+
+// !!변수의 내용을 교환할 때!!
+const player1 = '진우';
+const player2 = '루미';
+
+// let temp = player1;
+// player1 = player2;
+// player2 = temp;
+
+// 구조분해를 이용하면 이렇게 간단하게 변경 가능
+[player1, player2] = [player2, player1];
+
+
+
+// 객체 구조 분해
+const macbook_pro = {
+  mactitle: '맥북 프로 16형',
+  macprice: 3690000,
+  memory: '16GB',
+  storage: '1TB SSD 저장장치',
+  display: '16형 Rectina 디스플레이',
+};
+
+const { mactitle, macprice, color = 'silver' } = macbook_pro;
+
+console.log(mactitle);
+console.log(macprice);
+console.log(color);
+
+// 객체의 프로퍼티와 동일한 이름의 변수를 이용하면 객체에서 바로 해당 프로퍼티의 값을 할당받을 수 있다.
+// 없는 프로퍼티 네임을 이용하면 undefined가 할당된다
+// 할당연산자를 통해 기본값도 지정할 수 있다.
+
+const { storage, ...rest } = macbook_pro;
+// ...를 이용하면 프로퍼티가 유효한 부분은 해당 변수에 할당하고
+// 나머지를 하나의 객체로 모아서 할당할 수도 있다.
+
+const { mactitle: product_name } = macbook_pro;
+console.log(product_name);
+// 프로퍼티: 변수명을 이용해서 할당받는 변수의 이름을 프로퍼티와 다르게 설정할 수도 있다.
+
+const propertyName = 'mactitle';
+const { [propertyName]: product_name1 } = macbook_pro;
+// 계산된 속성명(computed property name)를 이용하면 변수를 이용해 프로퍼티 네임을 사용할 수도 있다.
+
+
 // 구조분해 예시코드
 // title, artist, year, medium 변수에 myBestArt 객체의 각 프로퍼티를 할당
 const myBestArt = {
@@ -94,3 +169,4 @@ btn.addEventListener('click', ( {target: {classList}} ) => {
   // 위의 경우에서 한번 더 구조분해를 한 경우. 가독성이 떨어질 수 있기때문에 자주 사용하지는 않는다.
   classList.toggle('done');
 });
+ 
