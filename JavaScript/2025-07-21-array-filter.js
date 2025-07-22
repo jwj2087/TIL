@@ -39,18 +39,18 @@ const someReturn = nums.some((element, index, array) => {
     console.log(index); // 콘솔에는 0, 1, 2, 3까지만 출력됨.
     return element > 5;
 });
-
 console.log(someReturn); // true;
 
 // every
-// 배열 안에 콜백 함수가 리턴하는 조건을 만족하지 않는 요소가 1개 이상 있는지를 확인하는 메소드 
+// 배열 안에 콜백 함수가 리턴하는 조건을 모든 요소가 만족하는지 확인하는 메소드 
 // 모든 요소가 콜백함수가 리턴하는 조건을 만족한다면 true를 리턴, 
 // 조건을 만족하지 않는 요소가 등장한다면 바로 false를 리턴하고 반복을 종료
 
-// every: 조건을 만족하지 않는 요소가 1개 이상 있는지
+// every: 모든 요소가 조건을 만족하는지
 const everyReturn = nums.every((element, index, array) => {
     console.log(index); // 콘솔에는 0까지만 출력됨.
     return element > 5;
 });
-
 console.log(everyReturn); // false;
+
+// 빈 배열일 경우 sum은 false, every는 true를 반환한다
