@@ -151,9 +151,15 @@ function restParmArgs(first, second, ...outhers) {
 
 
 // Arrow Function : 이름이 없는 함수에 사용
+
+// const getTwice = function(num){
+//     return num*2;
+// }; function 생략 후 화살표 
+
 const getTwice = (num) => {
     return num * 2;
 };
+
 const getTwice2 = num => num * 2; // 간결한 표현법
 // 파라미터가 하나일 때 () 생략가능, return문 하나라면 return이랑 {} 생략가능
 
