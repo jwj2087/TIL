@@ -5,6 +5,11 @@ export async function getColorSurveys(params = {}) { // GET 함수
     );
 
     const res = await fetch(url);
+
+    if(!res.ok){
+        throw new Error('데이터를 불러오는데 실패했습니다');
+    }
+    
     const data = await res.json();
     return data;
 }
@@ -12,6 +17,10 @@ export async function getColorSurveys(params = {}) { // GET 함수
 export async function getColorSurvey(id) {
     const res = await fetch(`https://learn.codeit.kr/api/color-surveys/${id}`);
     const data = await res.json();
+
+    if(!res.ok){
+        throw new Error('데이터를 불러오는데 실패했습니다');
+    }
 
     return data;
 }
@@ -24,6 +33,11 @@ export async function createColorSurvey(surveyData) {
             'Content-Type': 'application/json',
         },
     });
+    
+    if(!res.ok){
+        throw new Error('데이터를 불러오는데 실패했습니다');
+    }
+
     const data = await res.json();
     return data;
 }
