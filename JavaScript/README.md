@@ -18,3 +18,7 @@
 | 2025-07-21 | [배열의 메소드 2. 조건](./2025-07-21-array-filter.js) | #filter #find #some #every 
 | 2025-07-22 | [배열 정렬](./2025-07-22-sort.js) | #sort #reverse
 | 2025-07-22 | [Map과 Set](./2025-07-22-map.js) | #Map #Set
+| 2025-07-23 | [비동기 함수](./2025-07-23-AsynchronousFunc.js) | #비동기함수 #setTimeout() #setInterval() #addEventListener()
+| 2025-07-23 | [Promise](./2025-07-23-promise.js) | #Promise상태 #fetch() #await #then
+| 2025-07-24 | [Fetch](./2025-07-24-fetch.js) | #fetch #HTTP요청메서드 #쿼리파라미터 
+| 2025-07-24 | [API](./2025-07-24-API.js) | #api사용 

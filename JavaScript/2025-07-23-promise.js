@@ -54,7 +54,7 @@ try {
     console.log(employee);
 
 
-    // thean 
+    // then 
     // await보다 간결하게 코드를 작성할 수 있다
     function getRandomElement(arr) {
         const randomIdx = Math.floor(Math.random() * arr.length);
