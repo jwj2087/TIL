@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client';
+import App from './App';
 
 const product = 'MacBook';
 const model = 'Air';
@@ -15,6 +16,10 @@ root.render( // root.render() 함수 안에 작성한다
     <h1>나만의 {product + model} 주문하기</h1>
     {/* onClick에 직접 함수를 넣어 사용할 수 있다. */}
     <button onClick={handleClick}>확인</button> 
+
+
+    {/* 컴포넌트 활용 */}
+    <App /> 
   </>
   
 );
