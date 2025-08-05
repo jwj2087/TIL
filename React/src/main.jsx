@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import './main.css'; // css 파일은 바로 import 시키면 된다
 
 const product = 'MacBook';
 const model = 'Air';
