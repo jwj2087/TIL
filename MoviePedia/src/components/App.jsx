@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReviewList from "./ReviewList";
 import { getReviews } from "../api";
 
@@ -17,10 +17,15 @@ function App() {
     setItems(nextItems); // items  상태 변경
   };
 
-  const handleLoadClick = async () => { // 비동기 함수 호출
-    const { reviews } = await getReviews();
+  const handleLoad = async (orderQuery) => { // 비동기 함수 호출
+    const { reviews } = await getReviews(orderQuery);
     setItems(reviews);
   };
+
+  useEffect(() => { // 컴포넌트가 처음 렌더링이 끝나면 콜백함수를 호출
+    handleLoad(order);
+  }, [order]); // 배열은 Dependency List로 이전 렌더링과 배열을 비교해서 달라졌을때만 콜백함수를 호출한다.
+  // Dependency List가 빈 배열[]이면 처음가 달라지는 것이 없기때문에 맨처음 한번만 렌더링된다. 
 
   return (
     <div>
@@ -30,7 +35,6 @@ function App() {
         <button onClick={handleBestClick}>베스트순</button>
       </div>
       <ReviewList items={sortedItems} onDelete={handleDelete} />
-      <button onClick={handleLoadClick}>불러오기</button>
     </div>
   );
 }
