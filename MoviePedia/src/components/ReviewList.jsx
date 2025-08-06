@@ -29,7 +29,7 @@ function ReviewList({ items, onDelete }) { // 리스트
     <ul>
       {items.map((item) => { // map을 이용해서 렌더링
         return (
-          <li> 
+          <li key={item.id}> 
             <ReviewListItem item={item} onDelete={onDelete} />
           </li>
         );
