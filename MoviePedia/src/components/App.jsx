@@ -8,6 +8,7 @@ function App() {
   const [order, setOrder] = useState("createdAt"); // order의 초기값은 createAt
   const [offset, setOffset] = useState(0); // offset state
   const [hasNext, setHasNext] = useState(false); // 받아올 데이터가 더 있는지 확인용 state
+  const [isLoading, setIsLoading] = useState(false); // 현재 loading 상태
   const [items, setItems] = useState([]); // item의 상태변화도 관리하기 위해 state로 생성
 
   const sortedItems = items.sort((a, b) => b[order] - a[order]); // 원하는 order 상태에 따라 정렬 시키기
@@ -22,11 +23,27 @@ function App() {
   };
 
   const handleLoad = async (options) => { // 비동기 함수 호출
-    const { reviews, paging } = await getReviews(options);
+    let result;
+    try {
+      setIsLoading(true);
+      result = await getReviews(options);
+    } catch (error) {
+      console.error(error);
+      return;
+    } finally { // 어쨋든 완료가 되면 loading 중이 아님을 반환
+      setIsLoading(false);
+    }
+
+    const { paging, reviews } = result;
+
     if (options.offset === 0) { // offset이 0이면
       setItems(reviews); // 처음 불러오기때문에 전체를 바꾸면 된다.
     } else { // offset이 0이 아니라면
-      setItems([...items, ...reviews]); // 기존의 내용 + 새로 불러온 내용이 되어야하므로 스프레드 구문을 이용해서 구현한다
+      // setItems([...items, ...reviews]); // 기존의 내용 + 새로 불러온 내용이 되어야하므로 스프레드 구문을 이용해서 구현한다
+
+      // 비동기 함수내에서 items가 최신상태가 아닐 수가 있으므로 함수형 업데이트(Functional Update)를 사용한다(=최신상태 유지가능)
+      // prevItems는 React가 자동으로 넘겨주는 이전 상태 인자, 이때 이전 상태는 항상 최신을 유지할 수 있다.
+      setItems((prevItems) => [...prevItems, ...reviews]);
     }
     setOffset(options.offset + options.limit); // offset 값 변경 (이때까지 불러온 값 + 현재 불러온 값)
     setHasNext(paging.hasNext); // hasNext 값을 변경한다
@@ -50,7 +67,8 @@ function App() {
       </div>
       <ReviewList items={sortedItems} onDelete={handleDelete} />
       {/* 조건부렌더링: 값이 false이면 렌더링 시키지 않는 react 특성을 활용 */}
-       {hasNext && <button onClick={handleLoadMore}>더 보기</button>}
+      {/* lading 중일때 버튼 비활성화 */}
+       {hasNext && <button disabled={isLoading} onClick={handleLoadMore}>더 보기</button>}
     </div>
   );
 }
