@@ -15,6 +15,9 @@
 | 분류 | 설명 |
 |------|------|
 | [HTML-CSS/](./HTML-CSS/) | 웹 퍼블리싱 및 레이아웃 구현 관련 학습 |
+| [JavaScript/](./JavaScript/) | JavaScript 기본 문법 학습 |
+| [React/](./React/) | React 기본 문법 학습 |
+| [MoviePedia/](./MoviePedia/) | React를 이용해 데이터 관리에 대해 학습 |
 
 ---
 
