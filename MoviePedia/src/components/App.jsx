@@ -49,10 +49,8 @@ function App() {
         <button onClick={handleBestClick}>베스트순</button>
       </div>
       <ReviewList items={sortedItems} onDelete={handleDelete} />
-      {/* hasNext가 false가 되면 disabled 시키는 더보기 버튼 */}
-      <button disabled={!hasNext} onClick={handleLoadMore}>
-        더 보기
-      </button>
+      {/* 조건부렌더링: 값이 false이면 렌더링 시키지 않는 react 특성을 활용 */}
+       {hasNext && <button onClick={handleLoadMore}>더 보기</button>}
     </div>
   );
 }
