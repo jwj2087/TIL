@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import ReviewList from "./ReviewList";
 import { getReviews } from "../api";
 
+const LIMIT = 6; // 불러올 데이터 갯수
+
 function App() {
   const [order, setOrder] = useState("createdAt"); // order의 초기값은 createAt
+  const [offset, setOffset] = useState(0); // offset state
+  const [hasNext, setHasNext] = useState(false); // 받아올 데이터가 더 있는지 확인용 state
   const [items, setItems] = useState([]); // item의 상태변화도 관리하기 위해 state로 생성
 
   const sortedItems = items.sort((a, b) => b[order] - a[order]); // 원하는 order 상태에 따라 정렬 시키기
@@ -17,13 +21,23 @@ function App() {
     setItems(nextItems); // items  상태 변경
   };
 
-  const handleLoad = async (orderQuery) => { // 비동기 함수 호출
-    const { reviews } = await getReviews(orderQuery);
-    setItems(reviews);
+  const handleLoad = async (options) => { // 비동기 함수 호출
+    const { reviews, paging } = await getReviews(options);
+    if (options.offset === 0) { // offset이 0이면
+      setItems(reviews); // 처음 불러오기때문에 전체를 바꾸면 된다.
+    } else { // offset이 0이 아니라면
+      setItems([...items, ...reviews]); // 기존의 내용 + 새로 불러온 내용이 되어야하므로 스프레드 구문을 이용해서 구현한다
+    }
+    setOffset(options.offset + options.limit); // offset 값 변경 (이때까지 불러온 값 + 현재 불러온 값)
+    setHasNext(paging.hasNext); // hasNext 값을 변경한다
+  };
+
+  const handleLoadMore = async () => { // 다음 페이지를 불러올 함수
+    await handleLoad({ order, offset, limit: LIMIT });
   };
 
   useEffect(() => { // 컴포넌트가 처음 렌더링이 끝나면 콜백함수를 호출
-    handleLoad(order);
+    handleLoad({ order, offset: 0, limit: LIMIT });
   }, [order]); // 배열은 Dependency List로 이전 렌더링과 배열을 비교해서 달라졌을때만 콜백함수를 호출한다.
   // Dependency List가 빈 배열[]이면 처음가 달라지는 것이 없기때문에 맨처음 한번만 렌더링된다. 
 
@@ -35,6 +49,10 @@ function App() {
         <button onClick={handleBestClick}>베스트순</button>
       </div>
       <ReviewList items={sortedItems} onDelete={handleDelete} />
+      {/* hasNext가 false가 되면 disabled 시키는 더보기 버튼 */}
+      <button disabled={!hasNext} onClick={handleLoadMore}>
+        더 보기
+      </button>
     </div>
   );
 }
