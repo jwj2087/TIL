@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import ReviewList from "./ReviewList";
 import { getReviews } from "../api";
+import ReviewList from "./ReviewList";
+import ReviewForm from "./ReviewForm";
 
 const LIMIT = 6; // 불러올 데이터 갯수
 
@@ -67,6 +68,7 @@ function App() {
         <button onClick={handleNewestClick}>최신순</button>
         <button onClick={handleBestClick}>베스트순</button>
       </div>
+      <ReviewForm />
       <ReviewList items={sortedItems} onDelete={handleDelete} />
       {/* 조건부렌더링: 값이 false이면 렌더링 시키지 않는 react 특성을 활용 */}
       {/* lading 중일때 버튼 비활성화 */}
