@@ -25,6 +25,7 @@ function ReviewForm() {
   return (
     <form className="ReviewForm" onSubmit={handleSubmit}>
       {/* onChange는 바닐라js의 onInput처럼 사용자가 값을 입력할때마다 발생하는 이벤트 */}
+      {/* 제어컴포넌트 :  value 속성을 지정하고 사용하는 컴포넌트. 리액트로 지정한 값과 input value 의 값이 항상 같다 */}
       <input name="title" value={values.title} onChange={handleChange} />
       <input type="number" name="rating" value={values.rating} onChange={handleChange} />
       <textarea name="content" value={values.content} onChange={handleChange} />
