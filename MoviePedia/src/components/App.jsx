@@ -56,6 +56,10 @@ function App() {
     await handleLoad({ order, offset, limit: LIMIT });
   };
 
+  const handleSubmitSuccess = (review) => { // post가 성공했을때 작성한 내용을 items에 포함시키기
+    setItems((prevItems) => [review, ...prevItems]);
+  };
+
   useEffect(() => { // 컴포넌트가 처음 렌더링이 끝나면 콜백함수를 호출
     handleLoad({ order, offset: 0, limit: LIMIT });
   }, [order]); // 배열은 Dependency List로 이전 렌더링과 배열을 비교해서 달라졌을때만 콜백함수를 호출한다.
@@ -68,7 +72,7 @@ function App() {
         <button onClick={handleNewestClick}>최신순</button>
         <button onClick={handleBestClick}>베스트순</button>
       </div>
-      <ReviewForm />
+      <ReviewForm onSubmitSuccess={handleSubmitSuccess} />
       <ReviewList items={sortedItems} onDelete={handleDelete} />
       {/* 조건부렌더링: 값이 false이면 렌더링 시키지 않는 react 특성을 활용 */}
       {/* lading 중일때 버튼 비활성화 */}

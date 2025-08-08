@@ -11,7 +11,7 @@ const INITIAL_VALUES = {
   imgFile: null,
 };
 
-function ReviewForm() {
+function ReviewForm( {onSubmitSuccess} ) {
   const [values, setValues] = useState(INITIAL_VALUES); // 상태 하나로 입력폼 관리
   const [isSubmitting, setIsSubmitting] = useState(false); // submit 로딩 중 상태
   const [submittingError, setSubmittingError] = useState(null); // submit err 상태
@@ -37,17 +37,21 @@ function ReviewForm() {
     formData.append('content', values.content);
     formData.append('imgFile', values.imgFile);
 
+    let result;
     try {
       setSubmittingError(null); // err x
       setIsSubmitting(true); // loading 중 (리퀘스트 보내는 중)
-      await createReview(formData);
+      result = await createReview(formData);
     } catch (error) {
       setSubmittingError(error);
       return;
     } finally {
       setIsSubmitting(false);
     }
+
+    const { review } = result;
     setValues(INITIAL_VALUES);
+    onSubmitSuccess(review); // 리스폰스가 성공했고 그 결과를 넘겨주는 prop
   };
 
   return (
