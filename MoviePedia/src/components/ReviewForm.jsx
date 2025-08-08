@@ -1,15 +1,20 @@
 import { useState } from 'react';
+import { createReview } from '../api';
 import './ReviewForm.css';
 import FileInput from './FileInput';
 import RatingInput from './RatingInput';
 
+const INITIAL_VALUES = {
+  title: '',
+  rating: 0,
+  content: '',
+  imgFile: null,
+};
+
 function ReviewForm() {
-  const [values, setValues] = useState({ // 상태 하나로 입력폼 관리
-    title: '',
-    rating: 0,
-    content: '',
-    imgFile: null,
-  });
+  const [values, setValues] = useState(INITIAL_VALUES); // 상태 하나로 입력폼 관리
+  const [isSubmitting, setIsSubmitting] = useState(false); // submit 로딩 중 상태
+  const [submittingError, setSubmittingError] = useState(null); // submit err 상태
 
   const handleChange = (name, value) => {
     setValues((prevValues) => ({
@@ -23,9 +28,26 @@ function ReviewForm() {
     handleChange(name, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // form submit 기본동작 막기
-    console.log(values);
+ 
+    const formData = new FormData(); // 받아온 데이터를 form 형태로 만들기
+    formData.append('title', values.title);
+    formData.append('rating', values.rating);
+    formData.append('content', values.content);
+    formData.append('imgFile', values.imgFile);
+
+    try {
+      setSubmittingError(null); // err x
+      setIsSubmitting(true); // loading 중 (리퀘스트 보내는 중)
+      await createReview(formData);
+    } catch (error) {
+      setSubmittingError(error);
+      return;
+    } finally {
+      setIsSubmitting(false);
+    }
+    setValues(INITIAL_VALUES);
   };
 
   return (
@@ -37,7 +59,8 @@ function ReviewForm() {
       <input name="title" value={values.title} onChange={handleInputChange} />
       <RatingInput name="rating" value={values.rating} onChange={handleChange} />
       <textarea name="content" value={values.content} onChange={handleInputChange} />
-      <button type="submit">확인</button>
+      <button disabled={isSubmitting} type="submit">확인</button>
+      {submittingError && <div>{submittingError.message}</div>}
     </form>
   );
 }
