@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-function FileInput({ name, value, onChange }) {
-  const [preview, setPreview] = useState(); // 미리보기 사진 경로를 위한 상태
+function FileInput({ name, value, initialPreview, onChange }) {
+  const [preview, setPreview] = useState(initialPreview); // 미리보기 사진 경로를 위한 상태
   const inputRef = useRef(); // ref 객체를 사용하면 DOM 노드를 직접 참조할 수 있다. 
   const handleChange = (e) => {
     const nextValue = e.target.files[0];
@@ -24,10 +24,10 @@ function FileInput({ name, value, onChange }) {
     setPreview(nextPreview); // 이 주소를 통해서 이미지를 미리보기 할 수 있다
 
     return () => { // 사이드이펙트 정리 함수
-      setPreview(); // 받아두었던 주소 상태를 리셋하고
+      setPreview(initialPreview); // 받아두었던 주소 상태를 리셋하고 + 수정할때 이미지 미리보기를 유지
       URL.revokeObjectURL(nextPreview); // 이전의 주소 오브젝트를 해제
     };
-  }, [value]);
+  }, [value, initialPreview]); // initalPreview가 변경되어도 리렌더가 되어야한다
 
   // file input은 보안상 이유로 무조건 비제어컴포넌트여야한다. 
   return (
