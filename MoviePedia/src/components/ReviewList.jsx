@@ -37,7 +37,7 @@ function ReviewListItem({ item, onDelete, onEdit }) {
 }
 
 // Review list
-function ReviewList({ items, onDelete }) {
+function ReviewList({ items, onDelete, onUpdate, onUpdateSuccess }) {
   const [editingId, setEditingId] = useState(null); // 수정할 요소의 id
 
   const handleCancel = () => setEditingId(null);
@@ -45,14 +45,24 @@ function ReviewList({ items, onDelete }) {
     <ul>
       {items.map((item) => {
         if (item.id === editingId) {
-          const { imgUrl, title, rating, content } = item;
+          const { id, imgUrl, title, rating, content } = item;
           const initialValues = { title, rating, content, imgFile: null };
+          // 수정 정보 보내기
+          const handleSubmit = (formatDate) => onUpdate(id, formatDate);
+          // 수정 성공 리스폰스 반영
+          const handleSubmitSuccess = (review) => {
+            onUpdateSuccess(review); 
+            setEditingId(null); // 입력폼 닫기
+          }
+
           return (
             <li key={item.id}>
               <ReviewForm
                 initialValues={initialValues}
                 initialPreview={imgUrl}
                 onCancel={handleCancel}
+                onSubmit={handleSubmit}
+                onSubmitSuccess={handleSubmitSuccess}
               />
             </li>
           );

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { createReview } from "../api";
 import "./ReviewForm.css";
 import FileInput from "./FileInput";
 import RatingInput from "./RatingInput";
@@ -13,9 +12,10 @@ const INITIAL_VALUES = {
 
 function ReviewForm({
   initialValues = INITIAL_VALUES,
-  initialPreview,
-  onSubmitSuccess,
-  onCancel,
+  initialPreview, // 이미지 미리보기 url
+  onSubmitSuccess, // 글 생성 또는 수정이 완료
+  onSubmit, // 네트워크 리퀘스트 전송 (createReview 대체) 내려받는 prop에 따라 생성과 수정 둘 다 관리 가능
+  onCancel, // 수정 시 취소
 }) {
   const [values, setValues] = useState(initialValues); // 상태 하나로 입력폼 관리
   const [isSubmitting, setIsSubmitting] = useState(false); // submit 로딩 중 상태
@@ -46,7 +46,7 @@ function ReviewForm({
     try {
       setSubmittingError(null); // err x
       setIsSubmitting(true); // loading 중 (리퀘스트 보내는 중)
-      result = await createReview(formData);
+      result = await onSubmit(formData);
     } catch (error) {
       setSubmittingError(error);
       return;

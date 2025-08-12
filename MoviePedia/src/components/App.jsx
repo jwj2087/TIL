@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getReviews } from "../api";
+import { createReview, getReviews, updateReview } from "../api";
 import ReviewList from "./ReviewList";
 import ReviewForm from "./ReviewForm";
 
@@ -56,9 +56,20 @@ function App() {
     await handleLoad({ order, offset, limit: LIMIT });
   };
 
-  const handleSubmitSuccess = (review) => { // post가 성공했을때 작성한 내용을 items에 포함시키기
+  const handleCreateSuccess = (review) => { // post가 성공했을때 작성한 내용을 items에 포함시키기
     setItems((prevItems) => [review, ...prevItems]);
   };
+
+  const handleUpdateSuccess = (review) => { // 리뷰를 수정한 다음에 리스폰스로 도착한 데이터를 반영 
+    setItems((prevItems) => {
+      const splitIdx = prevItems.findIndex((item) => item.id === review.id); // 수정할 인덱스 찾기 
+      return [
+        ...prevItems.slice(0, splitIdx),
+        review, // 해당 아이디의 인덱스에 수정된 내용을 끼워넣어주기 
+        ...prevItems.slice(splitIdx + 1),
+      ]
+    })
+  }
 
   useEffect(() => { // 컴포넌트가 처음 렌더링이 끝나면 콜백함수를 호출
     handleLoad({ order, offset: 0, limit: LIMIT });
@@ -72,8 +83,8 @@ function App() {
         <button onClick={handleNewestClick}>최신순</button>
         <button onClick={handleBestClick}>베스트순</button>
       </div>
-      <ReviewForm onSubmitSuccess={handleSubmitSuccess} />
-      <ReviewList items={sortedItems} onDelete={handleDelete} />
+      <ReviewForm onSubmit={createReview} onSubmitSuccess={handleCreateSuccess} />
+      <ReviewList items={sortedItems} onDelete={handleDelete} onUpdate={updateReview} onUpdateSuccess={handleUpdateSuccess} />
       {/* 조건부렌더링: 값이 false이면 렌더링 시키지 않는 react 특성을 활용 */}
       {/* lading 중일때 버튼 비활성화 */}
       {hasNext && <button disabled={isLoading} onClick={handleLoadMore}>더 보기</button>}
