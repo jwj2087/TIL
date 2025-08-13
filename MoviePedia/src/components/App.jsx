@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createReview, getReviews, updateReview } from "../api";
+import { createReview, deleteReview, getReviews, updateReview } from "../api";
 import ReviewList from "./ReviewList";
 import ReviewForm from "./ReviewForm";
 
@@ -18,10 +18,13 @@ function App() {
   const handleNewestClick = () => setOrder("createdAt"); // 상태 = createdAt
   const handleBestClick = () => setOrder("rating"); // 상태 = rating
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     // filter를 이용해서 item을 삭제하는 함수
-    const nextItems = items.filter((item) => item.id !== id); // id값이랑 동일한 item을 제외하고 nextItems를 생성
-    setItems(nextItems); // items  상태 변경
+    const result = await deleteReview(id);
+    if(!result) return;
+
+    // items  상태 변경 id값이랑 동일한 item을 제외하고 nextItems를 생성
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));  
   };
 
   const handleLoad = async (options) => { // 비동기 함수 호출

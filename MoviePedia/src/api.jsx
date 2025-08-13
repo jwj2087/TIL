@@ -41,3 +41,15 @@ export async function updateReview(id, formData) {
   const body = await response.json();
   return body;
 }
+
+export async function deleteReview(id) {
+  // id와 받아와서 delete을 실행하는 함수
+  const response = await fetch(`${BASE_URL}/film-reviews/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("리뷰를 삭제하는데 실패했습니다.");
+  }
+  const body = await response.json();
+  return body;
+}
