@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createReview, deleteReview, getReviews, updateReview } from "../api";
 import ReviewList from "./ReviewList";
 import ReviewForm from "./ReviewForm";
+import useAsync from "../hooks/useAsync";
 
 const LIMIT = 6; // 불러올 데이터 갯수
 
@@ -9,8 +10,7 @@ function App() {
   const [order, setOrder] = useState("createdAt"); // order의 초기값은 createAt
   const [offset, setOffset] = useState(0); // offset state
   const [hasNext, setHasNext] = useState(false); // 받아올 데이터가 더 있는지 확인용 state
-  const [isLoading, setIsLoading] = useState(false); // 현재 loading 상태
-  const [loadingError, setLoadingError] = useState(null); // 에러 상태
+  const [isLoading, loadingError, getReviewsAsync] = useAsync(getReviews); // 비동기처리 커스텀 훅
   const [items, setItems] = useState([]); // item의 상태변화도 관리하기 위해 state로 생성
 
   const sortedItems = items.sort((a, b) => b[order] - a[order]); // 원하는 order 상태에 따라 정렬 시키기
@@ -28,18 +28,9 @@ function App() {
   };
 
   const handleLoad = async (options) => { // 비동기 함수 호출
-    let result;
-    try {
-      setLoadingError(null);
-      setIsLoading(true);
-      result = await getReviews(options);
-    } catch (error) {
-      setLoadingError(error); // 현재 에러를 넘겨준다
-      return;
-    } finally { // 어쨋든 완료가 되면 loading 중이 아님을 반환
-      setIsLoading(false);
-    }
-
+    const result = await getReviewsAsync(options);
+    if(!result) return;
+    
     const { paging, reviews } = result;
 
     if (options.offset === 0) { // offset이 0이면
