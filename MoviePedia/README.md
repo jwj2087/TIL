@@ -106,3 +106,7 @@ React에서 컴포넌트를 렌더링할 때 조건에 따라 다른 요소를 �
 - Context.Provider 라는 컴포넌트로 Context의 범위를 지정할 수 있다. 
 - 컴포넌트를 이용해서 Context도 하나의 컴포넌트로 관리할 수 있다. => Context를 이동하거나 관리에 유용하다 
 - State 값을 해당 컴포넌트 안에서 만들어서 사용하면 State 값을 다른 곳에서는 직접 참조하지 못하고 반드시 Context를 통해서만 사용 가능하다
+
+- createContext 함수로 Context 생성 
+- Provider 객체로 범위 정하기 
+- useContext 훅으로 값을 가져오기
