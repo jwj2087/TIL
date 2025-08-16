@@ -3,6 +3,7 @@ import "./ReviewForm.css";
 import FileInput from "./FileInput";
 import RatingInput from "./RatingInput";
 import useAsync from "../hooks/useAsync";
+import useTranslate from "../hooks/useTranslate";
 
 const INITIAL_VALUES = {
   title: "",
@@ -18,6 +19,7 @@ function ReviewForm({
   onSubmit, // 네트워크 리퀘스트 전송 (createReview 대체) 내려받는 prop에 따라 생성과 수정 둘 다 관리 가능
   onCancel, // 수정 시 취소
 }) {
+  const t = useTranslate();
   const [values, setValues] = useState(initialValues); // 상태 하나로 입력폼 관리
   const [isSubmitting, submittingError, onSubmitAsync] = useAsync(onSubmit); // 커스텀 훅 
  
@@ -75,10 +77,10 @@ function ReviewForm({
         onChange={handleInputChange}
       />
       <button disabled={isSubmitting} type="submit">
-        확인
+        {t('confirm button')}
       </button>
       {/* onCancel이 있을때만 취소버튼이 보임 */}
-      {onCancel && <button onClick={onCancel}>취소</button>}
+      {onCancel && <button onClick={onCancel}>{t('cancel button')}</button>}
       {submittingError && <div>{submittingError.message}</div>}
     </form>
   );

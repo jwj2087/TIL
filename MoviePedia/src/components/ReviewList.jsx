@@ -2,7 +2,7 @@ import { useState } from "react";
 import Rating from "./Rating";
 import ReviewForm from "./ReviewForm";
 import "./ReviewList.css";
-import { useLocale } from "../contexts/LocaleContext";
+import useTranslate from "../hooks/useTranslate";
 
 function formatDate(value) {
   // 그냥 날짜 깔끔하게 보이게 하는 함수
@@ -12,7 +12,7 @@ function formatDate(value) {
 
 // 각 Review 아이템
 function ReviewListItem({ item, onDelete, onEdit }) {
-  const locale = useLocale(); // Context 값을 가져오는 훅
+  const t = useTranslate(); // Context를 사용하는 translate Hook 불러오기
 
   // 삭제버튼 클릭시
   const handleDeleteClick = () => {
@@ -32,9 +32,8 @@ function ReviewListItem({ item, onDelete, onEdit }) {
         <Rating value={item.rating} />
         <p>{formatDate(item.createdAt)}</p>
         <p>{item.content}</p>
-        <p>현재 언어: {locale}</p>
-        <button onClick={handleDeleteClick}>삭제</button>
-        <button onClick={handleEditClick}>수정</button>
+        <button onClick={handleDeleteClick}>{t('delete button')}</button>
+        <button onClick={handleEditClick}>{t('edit button')}</button>
       </div>
     </div>
   );
