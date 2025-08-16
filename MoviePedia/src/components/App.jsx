@@ -3,7 +3,8 @@ import { createReview, deleteReview, getReviews, updateReview } from "../api";
 import ReviewList from "./ReviewList";
 import ReviewForm from "./ReviewForm";
 import useAsync from "../hooks/useAsync";
-import LocaleContext from "../contexts/LocaleContext";
+import { LocaleProvider } from "../contexts/LocaleContext";
+import LocaleSelect from "./LocaleSelect";
 
 const LIMIT = 6; // 불러올 데이터 갯수
 
@@ -73,8 +74,9 @@ function App() {
 
   return (
     // Context 태그 안의 컴포넌트들은 어디서나 Context가 제공하는 값을 사용할 수 있다.
-    <LocaleContext.Provider value={'ko'}>
+    <LocaleProvider defaultValue={"ko"}>  
     <div>
+      <LocaleSelect />
       <div>
         {/* 각 버튼을 누르면 원하는 기준으로 list가 정렬된다 */}
         <button onClick={handleNewestClick}>최신순</button>
@@ -88,7 +90,7 @@ function App() {
       {/* loadingError가 있다면 메세지를 보여주는 태그 */}
       {loadingError?.message && <span>{loadingError.message}</span>}
     </div>
-    </LocaleContext.Provider>
+    </LocaleProvider>
   );
 }
 

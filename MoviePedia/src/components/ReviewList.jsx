@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Rating from "./Rating";
 import ReviewForm from "./ReviewForm";
 import "./ReviewList.css";
-import LocaleContext from "../contexts/LocaleContext";
+import { useLocale } from "../contexts/LocaleContext";
 
 function formatDate(value) {
   // 그냥 날짜 깔끔하게 보이게 하는 함수
@@ -12,7 +12,7 @@ function formatDate(value) {
 
 // 각 Review 아이템
 function ReviewListItem({ item, onDelete, onEdit }) {
-  const locale = useContext(LocaleContext); // Context 값을 가져오는 훅
+  const locale = useLocale(); // Context 값을 가져오는 훅
 
   // 삭제버튼 클릭시
   const handleDeleteClick = () => {
