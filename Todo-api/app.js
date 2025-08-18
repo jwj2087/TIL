@@ -2,6 +2,11 @@ import express from "express";
 import tasks from "./data/mock.js";
 
 const app = express();
+// Express는 req body로 전달되는 json 데이터를 자동으로 JS 객체로 변환시켜주지 않는다. 
+// json 데이터 -> js 객체 : 파싱 과정 필요
+app.use(express.json()); 
+// app.use() : app 전체에서 사용하겠다는 의미
+// express.json() : request가 Content-Type: application/json 이면 바디를 파싱해서 JS 객체로 만들고 request의 바디 프로퍼티에 담아준다. 
 
 // 첫번째 파라미터 : usl 경로
 // 두번째 파라미터 : 실행할 콜백함수 (들어온 리퀘스트 객체, 돌려줄 리스폰스 객체)
@@ -41,6 +46,21 @@ app.get("/tasks/:id", (req, res) => {
     // status 메소드를 이용해서 status 코드 설정가능
     res.status(404).send({ message: "Cannot find given id" });
   }
+});
+
+app.post("/tasks", (req, res) => {
+  // 위에서 파싱을 해둬서 그냥 body 프로퍼티로 접근 가능
+  const newTask = req.body;
+
+  // 진짜 하나하나 정보값 넣어주기 -> 나중에 DB 쓰면 이럴 필요 x
+  const ids = tasks.map((task) => task.id);
+  newTask.id = Math.max(...ids) + 1;
+  newTask.isComplete = false;
+  newTask.createdAt = new Date();
+  newTask.updatedAt = new Date();
+  
+  tasks.push(newTask);
+  res.status(201).send(newTask);
 });
 
 // 3000 : 포트번호
