@@ -1,5 +1,6 @@
 import express from "express";
-import tasks from "./data/mock.js";
+import mockTasks from "./data/mock.js";
+import Task from "./models/Task.js";
 
 const app = express();
 // Express는 req body로 전달되는 json 데이터를 자동으로 JS 객체로 변환시켜주지 않는다. 
@@ -10,7 +11,7 @@ app.use(express.json());
 
 // 첫번째 파라미터 : usl 경로
 // 두번째 파라미터 : 실행할 콜백함수 (들어온 리퀘스트 객체, 돌려줄 리스폰스 객체)
-app.get("/tasks", (req, res) => {
+app.get("/tasks", async (req, res) => {
   /**
    * 쿼리 파라미터
    * - sort: 'oldest'인 경우 오래된 태스크 기준, default는 새로운 태스트 기준
@@ -19,27 +20,33 @@ app.get("/tasks", (req, res) => {
    * 쿼리 파라미터는 쿼리 객체에 전달 - 문자열로 전달됨
    */
   const sort = req.query.sort;
-  const count = Number(req.query.count);
+  const count = Number(req.query.count) || 0;
 
+  const sortOption = ( {createdAt: sort === 'oldest' ? 'asc' : 'desc'});
+  const tasks = await Task.find().sort(sortOption).limit(count);
+  // Task는 쿼리를 반환 
+  // => promise와 똑같이 동작 / 차이점: 다양한 메소드를 연결해서 조회조건 추가 가능
+  
+  // mock 데이터
   // 정렬 비교함수
-  const compareFn =
-    sort === "oldest"
-      ? (a, b) => a.createdAt - b.createdAt
-      : (a, b) => b.createdAt - a.createdAt;
-  let newTasks = tasks.sort(compareFn);
-  // count가 있으면 count만큼 task 잘라주기
-  if (count) {
-    newTasks = newTasks.slice(0, count);
-  }
+  // const compareFn =
+  //   sort === "oldest"
+  //     ? (a, b) => a.createdAt - b.createdAt
+  //     : (a, b) => b.createdAt - a.createdAt;
+  // let newTasks = mockTasks.sort(compareFn);
+  // // count가 있으면 count만큼 task 잘라주기
+  // if (count) {
+  //   newTasks = newTasks.slice(0, count);
+  // }
 
   res.send(newTasks); // JS 객체를 받으면 자동으로 JSON으로 변환해서 돌려준다.
 });
 
-app.get("/tasks/:id", (req, res) => {
+app.get("/tasks/:id", async (req, res) => {
   // 주소에서 동적인 부분을 : 으로 표시하고 url 파라미터라고 부른다.
   // url 파라미터는 params 객체로 전달 - 문자열로 전달됨
-  const id = Number(req.params.id);
-  const task = tasks.find((task) => task.id === id);
+  const id = req.params.id;
+  const task = await Task.findById(id); //mongo DB 에서 제공하는 함수(id는 string을 이용)
   if (task) {
     res.send(task);
   } else {
@@ -53,19 +60,19 @@ app.post("/tasks", (req, res) => {
   const newTask = req.body;
 
   // 진짜 하나하나 정보값 넣어주기 -> 나중에 DB 쓰면 이럴 필요 x
-  const ids = tasks.map((task) => task.id);
+  const ids = mockTasks.map((task) => task.id);
   newTask.id = Math.max(...ids) + 1;
   newTask.isComplete = false;
   newTask.createdAt = new Date();
   newTask.updatedAt = new Date();
   
-  tasks.push(newTask);
+  mockTasks.push(newTask);
   res.status(201).send(newTask);
 });
 
 app.patch("/tasks/:id", (req, res) => {
   const id = Number(req.params.id);
-  const task = tasks.find((task) => task.id === id);
+  const task = mockTasks.find((task) => task.id === id);
   if (task) {
     // task가 있다면 req로 들어온 body의 정보로 덮어씌워야함
     Object.keys(req.body).forEach((key) => {
@@ -80,9 +87,9 @@ app.patch("/tasks/:id", (req, res) => {
 
 app.delete("/tasks/:id", (req, res) => {
   const id = Number(req.params.id);
-  const idx = tasks.findIndex((task) => task.id === id);
+  const idx = mockTasks.findIndex((task) => task.id === id);
   if (idx >= 0) {
-    tasks.splice(idx, 1); // splice로 해당 id 객체 제거
+    mockTasks.splice(idx, 1); // splice로 해당 id 객체 제거
     res.sendStatus(204); // 바디 없이 상태코드만 반환
   } else {
     res.status(404).send({ message: "Cannot find given id" });
