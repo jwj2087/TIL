@@ -78,5 +78,16 @@ app.patch("/tasks/:id", (req, res) => {
   }
 });
 
+app.delete("/tasks/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const idx = tasks.findIndex((task) => task.id === id);
+  if (idx >= 0) {
+    tasks.splice(idx, 1); // splice로 해당 id 객체 제거
+    res.sendStatus(204); // 바디 없이 상태코드만 반환
+  } else {
+    res.status(404).send({ message: "Cannot find given id" });
+  }
+});
+
 // 3000 : 포트번호
 app.listen(3000, () => console.log("Server start!"));

@@ -25,3 +25,6 @@ Content-Type: application/json
   "title": "1시간 운동",
   "description": "열심히 운동하기"
 }
+
+###
+DELETE  http://localhost:3000/tasks/1
