@@ -55,18 +55,21 @@ app.get("/tasks/:id", async (req, res) => {
   }
 });
 
-app.post("/tasks", (req, res) => {
-  // 위에서 파싱을 해둬서 그냥 body 프로퍼티로 접근 가능
-  const newTask = req.body;
+app.post("/tasks", async (req, res) => {
+  // // 위에서 파싱을 해둬서 그냥 body 프로퍼티로 접근 가능
+  // const newTask = req.body;
 
-  // 진짜 하나하나 정보값 넣어주기 -> 나중에 DB 쓰면 이럴 필요 x
-  const ids = mockTasks.map((task) => task.id);
-  newTask.id = Math.max(...ids) + 1;
-  newTask.isComplete = false;
-  newTask.createdAt = new Date();
-  newTask.updatedAt = new Date();
+  // // 진짜 하나하나 정보값 넣어주기 -> 나중에 DB 쓰면 이럴 필요 x
+  // const ids = mockTasks.map((task) => task.id);
+  // newTask.id = Math.max(...ids) + 1;
+  // newTask.isComplete = false;
+  // newTask.createdAt = new Date();
+  // newTask.updatedAt = new Date();
   
-  mockTasks.push(newTask);
+  // mockTasks.push(newTask);
+
+  // DB 스키마를 작성해뒀기 때문에 그냥 바로 생성을 하면 된다.
+  const newTask = await Task.create(req.body);
   res.status(201).send(newTask);
 });
 
