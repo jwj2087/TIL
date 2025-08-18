@@ -93,31 +93,31 @@ app.post("/tasks", asyncHandler( async (req, res) => {
   res.status(201).send(newTask);
 }));
 
-app.patch("/tasks/:id", (req, res) => {
+app.patch("/tasks/:id", asyncHandler( async(req, res) => {
   const id = Number(req.params.id);
-  const task = mockTasks.find((task) => task.id === id);
+  const task = await Task.findById(id);
   if (task) {
     // task가 있다면 req로 들어온 body의 정보로 덮어씌워야함
     Object.keys(req.body).forEach((key) => {
       task[key] = req.body[key]; // 기존의 task 값을 body 값으로 변경
     });
-    task.updatedAt = new Date(); // 업데이트 시간을 현재 시간으로 변경 
+    // task.updatedAt = new Date(); // 업데이트 시간을 현재 시간으로 변경 -> DB에서는 자동으로 처리
+    await task.save(); // DB에 저장
     res.send(task);
   } else {
     res.status(404).send({ message: "Cannot find given id" });
   }
-});
+}));
 
-app.delete("/tasks/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const idx = mockTasks.findIndex((task) => task.id === id);
-  if (idx >= 0) {
-    mockTasks.splice(idx, 1); // splice로 해당 id 객체 제거
+app.delete("/tasks/:id", asyncHandler( async (req, res) => {
+  const id = req.params.id;
+  const task = await Task.findByIdAndDelete(id); // 객체를 찾아서 삭제까지 해주는 함수. 삭제를 한 객체, 없다면 null 반환
+  if (task) {
     res.sendStatus(204); // 바디 없이 상태코드만 반환
   } else {
     res.status(404).send({ message: "Cannot find given id" });
   }
-});
+}));
 
 // 3000 : 포트번호
 app.listen(3000, () => console.log("Server start!"));
