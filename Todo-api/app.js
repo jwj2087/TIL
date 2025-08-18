@@ -63,5 +63,20 @@ app.post("/tasks", (req, res) => {
   res.status(201).send(newTask);
 });
 
+app.patch("/tasks/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const task = tasks.find((task) => task.id === id);
+  if (task) {
+    // task가 있다면 req로 들어온 body의 정보로 덮어씌워야함
+    Object.keys(req.body).forEach((key) => {
+      task[key] = req.body[key]; // 기존의 task 값을 body 값으로 변경
+    });
+    task.updatedAt = new Date(); // 업데이트 시간을 현재 시간으로 변경 
+    res.send(task);
+  } else {
+    res.status(404).send({ message: "Cannot find given id" });
+  }
+});
+
 // 3000 : 포트번호
 app.listen(3000, () => console.log("Server start!"));
