@@ -9,6 +9,26 @@ app.use(express.json());
 // app.use() : app 전체에서 사용하겠다는 의미
 // express.json() : request가 Content-Type: application/json 이면 바디를 파싱해서 JS 객체로 만들고 request의 바디 프로퍼티에 담아준다. 
 
+// 리퀘스트를 보내고 오류가 발생하면 그냥 서버가 죽어버리는 오류가 발생한다
+// 그래서 비동기 코드 오류 처리가 필요하다.
+function asyncHandler(handler){ // 라우터에 들어가는 핸들러 함수를 파라미터로 받아서
+  return async function (req, res) { // 새로운 핸들러 함수를 반환한다. -> 파라미터로 받는 핸들러 함수와 동일하나 오류처리가 된 상태
+    try {
+      await handler(req, res);
+    } catch (e) {
+      // 각 오류에 맞는 오류 메세지를 보여준다
+      if (e.name === 'ValidationError') {
+        res.status(400).send({message: e.message});
+      } else if (e.name === 'CastError') {
+        res.status(404).send({message: 'Cannot find given id.'});
+      } else {
+        res.status(500).send({message: e.message});
+      }
+    }
+  }
+}
+
+
 // 첫번째 파라미터 : usl 경로
 // 두번째 파라미터 : 실행할 콜백함수 (들어온 리퀘스트 객체, 돌려줄 리스폰스 객체)
 app.get("/tasks", async (req, res) => {
@@ -54,8 +74,8 @@ app.get("/tasks/:id", async (req, res) => {
     res.status(404).send({ message: "Cannot find given id" });
   }
 });
-
-app.post("/tasks", async (req, res) => {
+// 비동기 오류 처리를 위해 asyncHandler 함수로 감싸기
+app.post("/tasks", asyncHandler( async (req, res) => {
   // // 위에서 파싱을 해둬서 그냥 body 프로퍼티로 접근 가능
   // const newTask = req.body;
 
@@ -71,7 +91,7 @@ app.post("/tasks", async (req, res) => {
   // DB 스키마를 작성해뒀기 때문에 그냥 바로 생성을 하면 된다.
   const newTask = await Task.create(req.body);
   res.status(201).send(newTask);
-});
+}));
 
 app.patch("/tasks/:id", (req, res) => {
   const id = Number(req.params.id);
